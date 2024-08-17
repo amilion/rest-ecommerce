@@ -26,6 +26,7 @@ interface formFieldLevelError {
   email: string[] | null;
   phone_number: string[] | null;
   national_code: string[] | null;
+  images: string[] | null;
   role: string[] | null;
 }
 
@@ -52,18 +53,16 @@ function Signup() {
       label: "seller",
     },
   ];
+  console.log(errors);
   const handleSignUp = (data: singupFormData) => {
     const res = signupUser(data);
     res
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         navigate("/users/login/", { replace: true });
       })
       .catch((err) => {
-        console.log(err.response?.data);
         setErrorMessage(err.response.data.message);
         setFieldErrors(err.response.data.error);
-        console.log(fieldErrors);
       });
   };
   return (
@@ -149,6 +148,17 @@ function Signup() {
             ))}
         </FormControl>
         <FormControl padding="10px">
+          <FormLabel>image field</FormLabel>
+          <input type="file" accept="image/*" {...register("images")} />
+          {errors.images?.message && (
+            <FormHelperText>{errors.images.message}</FormHelperText>
+          )}
+          {fieldErrors?.images &&
+            fieldErrors.images.map((err) => (
+              <FormHelperText>{err}</FormHelperText>
+            ))}
+        </FormControl>
+        <FormControl padding="10px">
           <select {...register("role")}>
             {roleOptions.map((option) => (
               <option value={option.value} key={option.id}>
@@ -162,7 +172,7 @@ function Signup() {
             ))}
         </FormControl>
         <Box display="flex" justifyContent="center" padding="10px">
-          <Button type="submit" isDisabled={!isValid} colorScheme="blue">
+          <Button type="submit" colorScheme="blue">
             Signup
           </Button>
         </Box>

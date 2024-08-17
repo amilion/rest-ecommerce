@@ -16,14 +16,11 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "username",
-            "password",
-            "first_name",
-            "last_name",
-            "email",
-            "phone_number",
-            "national_code",
-            "role"
+            "username", "password",
+            "first_name", "last_name",
+            "email", "phone_number",
+            "national_code", "role",
+            "images"
         ]
         extra_kwargs = {
             "password": {
@@ -35,6 +32,7 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
+        images = validated_data.pop("images")
         user = User.objects.create_user(
             **validated_data
         )

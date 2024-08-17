@@ -24,6 +24,7 @@ class UserRegisterView(generics.CreateAPIView):
         payload = request.data
         serializer = self.serializer_class(data=payload)
         if serializer.is_valid():
+            import pdb;pdb.set_trace()
             serializer.create(serializer.validated_data)
             response = {
                 "message": "user registered successfully!",

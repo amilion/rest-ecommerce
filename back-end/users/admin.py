@@ -3,8 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from users.models import UserProfileImage
+
 User = get_user_model()
 
+class UserProfileAdmin(admin.TabularInline):
+    model = UserProfileImage
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
@@ -29,5 +33,9 @@ class UserAdmin(BaseUserAdmin):
         'last_name', 'is_staff',
         "is_active", 'national_code',
         'phone_number', 'phone_number_verified',
-        'email_verified', 'role'
+        'email_verified', 'role',
+    ]
+
+    inlines = [
+        UserProfileAdmin,
     ]

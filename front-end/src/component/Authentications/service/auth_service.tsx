@@ -25,6 +25,7 @@ export const signupSchema = z.object({
   email: z.string().email({ message: "email is not valid!" }),
   phone_number: z.number(),
   national_code: z.number(),
+  images: z.instanceof(FileList),
   role: z
     .string({ required_error: "this field is required!" })
     .max(2, { message: "invalid choice entered!" }),
@@ -49,6 +50,7 @@ const loginUser = (data: loginFormData) => {
 };
 
 const signupUser = (data: singupFormData) => {
+  console.log(data);
   const res = axiosInstance.post("users/api/v1/register/", data);
   return res;
 };
